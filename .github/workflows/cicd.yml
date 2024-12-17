@@ -50,6 +50,7 @@ jobs:
             # Tạo lại container mới từ image đã pull
             docker run -d \
             -p 6103:6103 \
+            -p 3002:3002 \
             --env-file /root/devhuynh/.env \
             --name be-nestjs \
             tmthaitodocker/be-nestjs:latest

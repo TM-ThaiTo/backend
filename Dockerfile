@@ -36,6 +36,7 @@ COPY --from=development /usr/src/app/dist ./dist
 
 # Expose API port
 EXPOSE 6103
+EXPOSE 3002
 
 # Start the server using production build
 CMD ["node", "dist/main"]
