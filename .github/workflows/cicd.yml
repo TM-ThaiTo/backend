@@ -29,7 +29,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: push image to docker hub
-        run: docker push tmthaitodocker/be-nestjs:lastest
+        run: docker push tmthaitodocker/be-nestjs:latest
             
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             # Kéo image mới nhất từ Docker Hub
-            docker pull tmthaitodocker/be-nestjs:lastest
+            docker pull tmthaitodocker/be-nestjs:latest
 
             # Dừng và xóa container cũ (nếu có)
             docker rm -f be-nestjs || echo "No container named be-nestjs found."
@@ -52,6 +52,6 @@ jobs:
             -p 6103:6103 \
             --env-file /root/devhuynh/.env \
             --name be-nestjs \
-            tmthaitodocker/be-nestjs:lastest
+            tmthaitodocker/be-nestjs:latest
         
 
