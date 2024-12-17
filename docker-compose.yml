@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  # MongoDB service
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=yourDatabaseName
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+  # NestJS Backend Service
+  nestjs:
+    build:
+      context: ./path-to-your-nestjs-project
+    container_name: nestjs
+    environment:
+      - URL_DATABASE=mongodb://admin:password@mongo:27017/AlexTrinh_SocialMedia
+    ports:
+      - "6103:6103"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  # Next.js Frontend Service
+  nextjs:
+    build:
+      context: ./path-to-your-nextjs-project
+    container_name: nextjs
+    ports:
+      - "3000:3000"
+    depends_on:
+      - nestjs
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data:

@@ -1,0 +1,57 @@
+name: Node.js CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Hoặc tên nhánh của bạn
+  pull_request:
+    branches:
+      - main  # Hoặc tên nhánh của bạn
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'  # Hoặc phiên bản Node.js mà bạn muốn sử dụng
+
+      - name: build docker image
+        run: |
+          docker build -t tmthaitodocker/be-nestjs .
+      
+      - name: login docker
+        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: push image to docker hub
+        run: docker push tmthaitodocker/be-nestjs:lastest
+            
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            # Kéo image mới nhất từ Docker Hub
+            docker pull tmthaitodocker/be-nestjs:lastest
+
+            # Dừng và xóa container cũ (nếu có)
+            docker rm -f be-nestjs || echo "No container named be-nestjs found."
+
+            # Xóa các image cũ không còn sử dụng
+            docker images -f "dangling=true" -q | xargs --no-run-if-empty docker rmi
+
+            # Tạo lại container mới từ image đã pull
+            docker run -d \
+            -p 6103:6103 \
+            --env-file /root/devhuynh/.env \
+            --name be-nestjs \
+            tmthaitodocker/be-nestjs:lastest
+        
+

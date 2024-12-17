@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "paths": {
+      "@constants/*": [
+        "src/constants/*",
+        "src/constants/*.ts",
+      ],
+      "@middleware/*": [
+        "src/middleware/*"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/type/*": [
+        "src/type/*",
+        "src/type/*.ts",
+      ],
+      "@common/*": [
+        "src/common/*",
+        "src/common/*.ts",
+      ],
+      "@cloudinary/*": [
+        "src/cloudinary/*",
+      ],
+      "@auth/*": [
+        "src/auth/*"
+      ],
+      "@gateway/*": [
+        "src/gateway/*",
+        "src/gateway/*.ts",
+      ],
+      "@/*": [
+        "src/modules/*",
+        "src/modules/*.ts",
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/types/**/*.d.ts"
+  ]
+}
