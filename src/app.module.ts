@@ -99,7 +99,7 @@ export class AppModule implements NestModule {
       .apply(LoggerMiddleware)
       // .forRoutes('*');
       .forRoutes(
-        // AuthController,
+        AuthController,
         PostController,
         CommentController,
         UserController,
