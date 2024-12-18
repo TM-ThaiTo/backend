@@ -34,6 +34,7 @@ export class WebSocketAuthAdapter extends IoAdapter {
             }
         });
 
+
         return server;
     }
 }
